@@ -1,4 +1,3 @@
-
 # 团务助手 · 智慧团建
 
 <p align="center">
@@ -10,6 +9,8 @@
 </p>
 
 ---
+
+> Microsoft Edge 加载项商店发布名称为 **团务助手 - 团员信息管理**。本工具为第三方辅助工具，与智慧团建官方平台不存在授权或隶属关系。
 
 ## 项目简介
 
@@ -52,6 +53,8 @@
 - 操作间隔控制。
 - 版本更新检查。
 
+> 批量评议与批量录入功能由使用者在工具面板中主动启动。批量录入任务启动后，工具会自动填写表单字段并点击页面「提交」按钮，操作前请务必核对目标人员与字段内容，并确认对相关数据拥有合法操作权限。
+
 > 具体功能以实际发布版本为准，部分功能可能受到智慧团建平台页面调整、账号权限及浏览器环境影响。
 
 ## 适用环境
@@ -61,32 +64,31 @@
 | 使用平台 | 智慧团建 |
 | 工具类型 | 浏览器辅助工具 |
 | 适用对象 | 有相应平台操作权限的团务工作人员 |
-| 浏览器 | Edge, Chorme |
+| 浏览器 | Edge、Chrome |
 | 当前版本 | v0.3.4 |
 
 ## 安装与使用
 
 ### 第一步：获取软件
 
-前往本项目 GitHub 仓库：
+**方式一（推荐）：Microsoft Edge 加载项商店**
 
-[团务助手 · 智慧团建](https://github.com/IIIIIInKKKKKK/Communist-Youth-League-Affairs-Assistant)
+上架后可在 Microsoft Edge 加载项商店搜索「团务助手 - 团员信息管理」安装，后续更新也通过商店获取。当前商店版本审核中，请关注本项目 Releases 页面公告。
 
-正式发布后，可在仓库的 Releases 页面获取对应版本的安装包。
+**方式二：开发模式本地加载**
+
+前往本项目 GitHub 仓库 [团务助手](https://github.com/IIIIIInKKKKKK/CYLAA--Communist-Youth-League-Affairs-Assistant)，下载对应版本的源码压缩包。
 
 ### 第二步：安装
 
-请按照仓库现有安装指南进行操作。
+从商店安装：在 Edge 加载项商店页面点击「获取」即可。
 
-如果使用浏览器扩展安装方式，请确保：
+本地加载：
 
-- 下载文件来自本项目官方仓库。
-- 使用与当前版本对应的安装说明。
-- 不要安装来源不明的修改版本。
-
-先解压下载的压缩包；  
-在浏览器插件页中打开开发者模式，点击添加解压缩后的扩展，选择解压所得的文件夹，即可自动安装。  
-注意：选中文件夹目录下必须要有 content.js 文件。  
+- 先解压下载的压缩包；
+- 在浏览器扩展管理页打开「开发者模式」，点击「加载解压缩的扩展」，选择解压所得的文件夹；
+- **所选文件夹根目录下必须包含 `manifest.json`**，它是浏览器识别扩展的入口；`content.js` 与 `icons/` 目录需与其同级；
+- 下载文件须来自本项目官方仓库，不要安装来源不明的修改版本。
 
 ### 第三步：使用
 
@@ -118,18 +120,17 @@
 - 请妥善保管本地导出文件。
 - 使用共享设备时，及时清理不再需要的敏感资料。
 
-**数据处理方式、网络通信范围、日志保存位置及数据留存期限，请以经过核实的实际版本说明为准。**
+数据处理方式、网络通信范围、日志保存位置及数据留存期限，以公开的隐私政策为准。
 
-详细内容请参阅 [隐私与数据安全说明](PRIVACY.md)。
+详细内容请参阅 [隐私政策](https://iiiiinnkkkkkk.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/)（政策源文件见 [PRIVACY.md](PRIVACY.md)）。
 
 ## 版本信息
 
-当前整理目标版本：**v0.3.4**
+当前版本：**v0.3.4**
 
-正式版本发布后，请通过 GitHub Releases 获取更新。
-
-- [查看项目仓库](https://github.com/IIIIIInKKKKKK/Communist-Youth-League-Affairs-Assistant)
-- [查看版本发布页面](https://github.com/IIIIIInKKKKKK/Communist-Youth-League-Affairs-Assistant/releases)
+- 通过 Microsoft Edge 加载项商店安装的用户，请直接在商店中获取更新。
+- [查看项目仓库](https://github.com/IIIIIInKKKKKK/CYLAA--Communist-Youth-League-Affairs-Assistant)
+- [查看版本发布页面](https://github.com/IIIIIInKKKKKK/CYLAA--Communist-Youth-League-Affairs-Assistant/releases)
 - [查看更新日志](CHANGELOG.md)
 
 ## 问题反馈
