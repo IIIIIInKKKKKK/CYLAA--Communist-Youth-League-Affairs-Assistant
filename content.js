@@ -1,6 +1,6 @@
 /* 团务助手 · content script v0.3.4
  * 名单抓取 / 行勾选 / 重置码记录 / 评议批量设置 / 录入预检。
- * 不代点审批、不代提交、不修改任何业务数据。
+ * 不代点审批；批量录入在用户启动任务后会自动填写表单并点击提交，操作前请核对数据。
  */
 (() => {
   'use strict';
@@ -920,7 +920,7 @@
           <button data-act="logclear">清空</button>
         </div>
         <div class="logbox" style="display:none"></div>
-        <div class="foot"><span data-kind>—</span><span>仅辅助 · 不代提交</span></div>
+        <div class="foot"><span data-kind>—</span><span>批量任务将自动提交 · 请核对</span></div>
       </div>
     `;
     root = host;
