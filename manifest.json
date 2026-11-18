@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "团务助手 · 智慧团建",
+  "version": "0.3.4",
+  "description": "智慧团建团支部管理辅助：名单抓取与导出、重置密码验证码记录、评议批量设置、团员信息批量填写、录入预检。所有提交动作仍由人工确认。",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://zhtj.youth.cn/*",
+    "https://cdn.jsdelivr.net/*",
+    "https://gitee.com/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://zhtj.youth.cn/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/icon48.png"
+      ],
+      "matches": [
+        "https://zhtj.youth.cn/*"
+      ]
+    }
+  ]
+}
