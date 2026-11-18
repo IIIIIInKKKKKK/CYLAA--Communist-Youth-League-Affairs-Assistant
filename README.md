@@ -1,17 +1,3 @@
-
-<p align="center">
-  <img src="icons/icon48.png" width="160" alt="团务助手 Logo">
-</p>
-
-<h1 align="center">团务助手 · 智慧团建</h1>
-
-<p align="center">
-  面向共青团基层团务工作的浏览器辅助工具
-</p>
-
----
-
-
 # 团务助手 · 智慧团建
 
 <p align="center">
