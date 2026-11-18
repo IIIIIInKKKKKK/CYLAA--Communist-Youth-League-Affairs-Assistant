@@ -700,7 +700,7 @@
   /* ---------------- 更新检查 ---------------- */
   const VERSION = '0.3.4';
   // 把这里的 zhtj-helper/zhtj-helper 换成你托管 version.json 的仓库（GitHub 或 Gitee 都行）
-  const UPDATE_REPO = 'zhtj-helper/zhtj-helper';
+  const UPDATE_REPO = 'IIIIIInKKKKKK/Communist-Youth-League-Affairs-Assistant';
   const UPDATE_SOURCES = [
     `https://cdn.jsdelivr.net/gh/${UPDATE_REPO}@main/version.json`,
     `https://gitee.com/${UPDATE_REPO}/raw/main/version.json`,
