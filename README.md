@@ -65,7 +65,7 @@
 | 工具类型 | 浏览器辅助工具 |
 | 适用对象 | 有相应平台操作权限的团务工作人员 |
 | 浏览器 | Edge、Chrome |
-| 当前版本 | v0.3.4 |
+| 当前版本 | v0.3.5 |
 
 ## 安装与使用
 
@@ -126,7 +126,7 @@
 
 ## 版本信息
 
-当前版本：**v0.3.4**
+当前版本：**v0.3.5**
 
 - 通过 Microsoft Edge 加载项商店安装的用户，请直接在商店中获取更新。
 - [查看项目仓库](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant)
