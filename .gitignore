@@ -1,21 +1,2 @@
-# OS files
-.DS_Store
-Thumbs.db
-
-# Editor
-.vscode/
-.idea/
-
-# Temporary files
-*.tmp
-*.bak
-*.log
-
-# Build output
+# 本地打包产物
 dist/
-__pycache__/
-
-# Secrets
-.env
-.env.*
-!.env.example

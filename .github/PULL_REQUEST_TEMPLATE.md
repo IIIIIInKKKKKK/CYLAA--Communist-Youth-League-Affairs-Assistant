@@ -1,23 +1,17 @@
 ## 变更说明
 
-<!-- 这个 PR 做了什么，为什么需要 -->
+<!-- 这个 PR 改了什么，为什么需要 -->
 
-## 影响范围
+## 检查清单
 
-- [ ] GitHub 发布版（`manifest.json` / `update.js` / `docs/`）
-- [ ] Edge 商店版（`edge/` / `docs/edge/` / `build/manifest.edge.json`）
-- [ ] 两者都影响
-- [ ] 仅文档、构建或 CI
-
-## 验证
-
-- [ ] 本地运行 `python build/build.py --target all` 通过
-- [ ] Edge 包不包含 `update.js` / `version.json`，也没有外部更新地址
-- [ ] 版本线正确：Edge 改 `edge/VERSION`，GitHub 改 `manifest.json`
-- [ ] 面板文案、商店描述、隐私页三处行为描述一致
+- [ ] `node --check content.js` 通过
+- [ ] `manifest.json` 版本为 `1.0.0`，权限仅 `storage` + `https://zhtj.youth.cn/*`
+- [ ] `content_scripts` 只加载 `content.js`
+- [ ] 包内没有 `update.js`、`version.json`、GitHub/Gitee/CDN 等外部引用
+- [ ] 面板文案、商店描述、`docs/index.html` 三处行为描述一致
 - [ ] 未提交 `dist/`、真实团员数据、账号密码或令牌
-- [ ] 涉及界面/行为变化时已更新 `CHANGELOG.md`
+- [ ] 行为变化已更新 `CHANGELOG.md`
 
-## 发布说明
+## 商店影响
 
-<!-- 是否需要打 tag、更新 version.json、提交 Edge 商店审核 -->
+<!-- 是否需要重新打包、提交审核、更新截图 -->

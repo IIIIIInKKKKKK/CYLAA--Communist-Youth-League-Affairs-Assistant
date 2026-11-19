@@ -1,16 +1,14 @@
-name: CI
+name: Edge CI
 
 on:
-  pull_request:
-    branches: [main, dev]
   push:
-    branches: [main, dev]
+  pull_request:
 
 permissions:
   contents: read
 
 jobs:
-  build-and-validate:
+  check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,22 +19,38 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Pillow
-        run: python -m pip install --upgrade pillow
+      - name: Validate manifest
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
 
-      - name: Build and validate both packages
-        run: python build/build.py --target all --node "$(command -v node)"
+          m = json.loads(pathlib.Path("manifest.json").read_text(encoding="utf-8"))
+          assert m["version"] == "1.0.0", m["version"]
+          assert m["permissions"] == ["storage"], m["permissions"]
+          assert m["host_permissions"] == ["https://zhtj.youth.cn/*"], m["host_permissions"]
+          assert m["content_scripts"][0]["js"] == ["content.js"], m["content_scripts"]
+          print("manifest OK")
+          PY
 
-      - name: Upload Edge package
+      - name: Syntax check
+        run: node --check content.js
+
+      - name: Check forbidden tokens
+        run: |
+          if grep -rniE 'github|jsdelivr|gitee|version\.json|update\.js' content.js manifest.json; then
+            echo "forbidden token found"
+            exit 1
+          fi
+
+      - name: Package
+        run: |
+          mkdir -p dist
+          zip -r dist/CYLAA-edge-1.0.0.zip manifest.json content.js icons
+
+      - name: Upload package
         uses: actions/upload-artifact@v4
         with:
           name: cylaa-edge
-          path: dist/CYLAA-edge-*.zip
-          if-no-files-found: error
-
-      - name: Upload GitHub package
-        uses: actions/upload-artifact@v4
-        with:
-          name: cylaa-github
-          path: dist/CYLAA-github-*.zip
+          path: dist/CYLAA-edge-1.0.0.zip
           if-no-files-found: error

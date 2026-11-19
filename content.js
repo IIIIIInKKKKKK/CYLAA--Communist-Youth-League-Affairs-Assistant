@@ -1,4 +1,4 @@
-/* 团务助手 · content script（两个发布版共用）
+/* 团务助手 · content script（Edge 商店版）
  * 名单抓取 / 行勾选 / 重置码记录 / 评议批量设置 / 录入预检。
  * 不代点审批；批量任务需要用户确认后才开始，确认后会自动填写表单并点击提交。
  */
@@ -34,7 +34,6 @@
     route: '',
     logs: [],
     settings: { autoClose: true, delay: 400 },
-    update: null,
   };
 
   function log(msg) {
@@ -697,7 +696,7 @@
     }
   }
 
-  /* ---------------- 版本与更新入口 ---------------- */
+  /* ---------------- 版本 ---------------- */
   // 版本以 manifest 为准，避免 content.js 里的版本号与打包版本不一致
   const VERSION =
     typeof chrome !== 'undefined' &&
@@ -705,44 +704,6 @@
     typeof chrome.runtime.getManifest === 'function'
       ? chrome.runtime.getManifest().version
       : '0.0.0';
-
-  // Edge 商店版由构建脚本改为 false；
-  // 完整版保持 true，由独立脚本负责网络检查，本文件只负责显示。
-  const HAS_UPDATER = true;
-
-  // 网络检查在独立脚本中；这里只把结果画到面板上。
-  function showUpdateBar() {
-    if (!shadow) return;
-    const elb = shadow.querySelector('[data-upd]');
-    if (!elb) return;
-    if (!state.update) {
-      elb.style.display = 'none';
-      return;
-    }
-    elb.style.display = 'inline-block';
-    elb.textContent = `新版 v${state.update.version}`;
-    elb.title = '点击打开下载页';
-  }
-
-  // 供更新脚本回调；Edge 版没有更新脚本，hasUpdater 为 false。
-  window.__CYLAA_HOST__ = {
-    version: VERSION,
-    hasUpdater: HAS_UPDATER,
-    setUpdate(info) {
-      state.update = info || null;
-      showUpdateBar();
-      const pane = shadow && shadow.querySelector('[data-pane="set"]');
-      if (pane && pane.style.display !== 'none') renderSettings();
-    },
-    log,
-  };
-
-  // 更新脚本就绪后，如果设置页正开着，重画一次更新区域
-  window.addEventListener('cylaa:updater-ready', () => {
-    const pane = shadow && shadow.querySelector('[data-pane="set"]');
-    if (pane && pane.style.display !== 'none') renderSettings();
-    showUpdateBar();
-  });
 
   /* ---------------- UI ---------------- */
   let root, shadow, el = {};
@@ -867,7 +828,7 @@
       </style>
       <div class="dock">
         <div class="hd">
-          ${LOGO_URL ? `<img class="lg" src="${LOGO_URL}" alt="团务助手" title="团务助手 · 智慧团建">` : ''}<b>团务助手</b><span class="tag">v${VERSION}</span>${HAS_UPDATER ? '<span class="upd" data-upd style="display:none"></span>' : ''}<span class="sp"></span>
+          ${LOGO_URL ? `<img class="lg" src="${LOGO_URL}" alt="团务助手" title="团务助手 · 智慧团建">` : ''}<b>团务助手</b><span class="tag">v${VERSION}</span><span class="sp"></span>
           <button title="收起">—</button>
         </div>
         <div class="tabs">
@@ -894,7 +855,6 @@
       </div>
     `;
     root = host;
-    showUpdateBar();
     shadow.querySelectorAll('.tabs div').forEach((d) =>
       d.addEventListener('click', () => activateTab(d.dataset.tab))
     );
@@ -924,13 +884,6 @@
       renderLog();
     });
 
-    const updEl = shadow.querySelector('[data-upd]');
-    if (updEl)
-      updEl.addEventListener('click', () => {
-        const u = window.__CYLAA_UPDATER__;
-        if (u) u.open();
-        else log('更新检查未启用');
-      });
     const dock = shadow.querySelector('.dock');
     const miniBtn = shadow.querySelector('.hd button');
     const setMini = (mini) => {
@@ -2845,22 +2798,6 @@
     });
   }
 
-  function fillUpdateSlot(pane) {
-    if (!HAS_UPDATER) return;
-    const slot = pane && pane.querySelector('[data-upd-slot]');
-    if (!slot) return;
-    const u = window.__CYLAA_UPDATER__;
-    if (!u) {
-      slot.innerHTML = '<div class="tiny">更新检查组件未加载</div>';
-      return;
-    }
-    slot.innerHTML = u.settingsHtml();
-    const checkBtn = slot.querySelector('[data-act="checkupd"]');
-    if (checkBtn) checkBtn.addEventListener('click', () => u.check(true));
-    const openBtn = slot.querySelector('[data-act="openupd"]');
-    if (openBtn) openBtn.addEventListener('click', () => u.open());
-  }
-
   function renderSettings() {
     const pane = shadow && shadow.querySelector('[data-pane="set"]');
     if (!pane) return;
@@ -2871,11 +2808,7 @@
         <button class="b" data-act="logout">清除本地数据</button>
       </div>
       <div style="border-top:1px dashed #eee;margin:10px 0"></div>
-      ${
-        HAS_UPDATER
-          ? '<div data-upd-slot></div>'
-          : `<div class="tiny">当前版本 v${VERSION}（商店版，更新由 Microsoft Edge 加载项商店完成）</div>`
-      }
+      <div class="tiny">当前版本 v${VERSION}（商店版，更新由 Microsoft Edge 加载项商店完成）</div>
       <div class="tiny" style="margin-top:10px">
         本工具只读取当前页面已展示的数据，不上传任何内容。<br>
         批量任务需要你在面板中点击确认后才会执行；确认后插件会逐人填写并提交，请先核对名单与内容。<br>
@@ -2889,7 +2822,6 @@
         chrome.storage.local.set({ zhtjHelperSettings: state.settings });
       })
     );
-    fillUpdateSlot(pane);
     pane.querySelector('[data-act="logout"]').addEventListener('click', () => {
       state.roster = [];
       state.selected.clear();
