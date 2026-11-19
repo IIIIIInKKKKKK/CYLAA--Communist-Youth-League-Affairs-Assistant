@@ -14,7 +14,17 @@
 智慧团建团务辅助：名单导出、验证码记录、评议批量设置与团员信息录入预检。
 ```
 
-## Description（≥250 字符，取自 manifest，可直接用）
+## Manifest description（写入 manifest.json，硬上限 132 字符）
+
+```
+团务助手：智慧团建团务辅助，支持名单读取与 CSV 导出、重置验证码记录、评议批量设置、团员信息录入预检；数据本地处理，批量任务确认后提交。
+```
+
+> 当前 70 字符。Partner Center 对 manifest 的 `description` 有 132 字符硬上限，不能把长文案放这里。
+
+## Store listing Description（Partner Center 长描述，250–10000 字符）
+
+> 下面这段填在 Partner Center → Store listings → Details for 中文（简体）→ **Description**，不是 manifest 的 `description` 字段。
 
 ```
 团务助手是一款面向共青团基层团务工作人员的第三方辅助工具，用于在智慧团建平台（zhtj.youth.cn）上提升日常团务处理效率。主要功能：团员名单读取与 CSV 导出，便于数据核对与归档；密码重置验证码的本地记录与导出；教育评议等级批量设置辅助；团员信息批量填写辅助与录入前数据预检。所有功能由使用者在工具面板中主动启动，仅处理使用者本人有权访问的团务数据，不改变正式审批流程。批量任务需要使用者确认后才开始，确认后工具会自动填写表单字段并执行提交（批量录入点击页面「提交」按钮，评议选择等次后由页面即时保存），操作前请务必核对目标人员与字段内容。姓名、手机号、验证码等敏感数据仅在本机浏览器内处理和导出，不上传至开发者服务器。本工具与智慧团建官方平台无授权或隶属关系。使用者须遵守平台规范与个人信息保护相关法律法规。
@@ -94,3 +104,4 @@ https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/
 4. 隐私页 URL 可访问，内容与商店版行为一致。
 5. 商店描述、面板文案、隐私页三处关于“确认后自动提交”的表述一致。
 6. 6 张截图已放入 `store-assets/screenshots/`，均为 1280×800，敏感信息已打码。
+7. `manifest.json` 的 `description` 已压到 70 字符（≤132），长描述填在 Store listing 的 Description 字段。
