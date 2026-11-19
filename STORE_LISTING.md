@@ -77,9 +77,14 @@ https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/
 | `store-assets/logo-300.png` | 300×300，1:1 | 已生成 |
 | `store-assets/small-promotional-tile-440x280.png` | 440×280 | 已生成 |
 | `store-assets/large-promotional-tile-1400x560.png` | 1400×560 | 已生成 |
-| 截图 | 1280×800 或 640×480，最多 6 张 | **待补**：需用商店版在真实界面重新截取 |
+| `store-assets/screenshots/01-roster.png` | 1280×800 | 已生成：名单 |
+| `store-assets/screenshots/02-evaluation.png` | 1280×800 | 已生成：评议 |
+| `store-assets/screenshots/03-member-info.png` | 1280×800 | 已生成：信息 |
+| `store-assets/screenshots/04-import.png` | 1280×800 | 已生成：录入 |
+| `store-assets/screenshots/05-codes.png` | 1280×800 | 已生成：取码 |
+| `store-assets/screenshots/06-settings.png` | 1280×800 | 已生成：设置 |
 
-截图注意：不要出现团徽、真实姓名/手机号/验证码；面板应与 v1.0.0 一致（底部文案为“批量任务需确认后自动提交 · 请核对”）。
+截图已用 v1.0.0 真实界面制作，姓名、手机号尾号等已打码；共 6 张，顺序：名单 → 评议 → 信息 → 录入 → 取码 → 设置。面板底部文案与 v1.0.0 一致（“批量任务需确认后自动提交 · 请核对”）。
 
 ## 上架前检查
 
@@ -88,3 +93,4 @@ https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/
 3. 包内无 `update.js`、`version.json`、第三方更新地址。
 4. 隐私页 URL 可访问，内容与商店版行为一致。
 5. 商店描述、面板文案、隐私页三处关于“确认后自动提交”的表述一致。
+6. 6 张截图已放入 `store-assets/screenshots/`，均为 1280×800，敏感信息已打码。
