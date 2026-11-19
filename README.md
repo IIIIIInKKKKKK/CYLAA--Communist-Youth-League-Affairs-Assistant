@@ -71,7 +71,7 @@
 
 ### 方式一：GitHub 发布版（开发模式本地加载）
 
-1. 在 [Releases](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases) 下载对应版本的源码压缩包。
+1. 在 [Releases](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases) 下载对应版本的发布包（`CYLAA-github-<version>.zip`）。
 2. 解压后，在浏览器扩展管理页打开「开发者模式」，点击「加载解压缩的扩展」，选择解压目录。
 3. **所选文件夹根目录下必须包含 `manifest.json`**，`content.js`、`update.js` 与 `icons/` 目录需与其同级。
 4. 该版本通过 GitHub 的 `version.json` 检查更新，适合能自行管理扩展的用户。
