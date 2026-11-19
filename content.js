@@ -1,6 +1,6 @@
-/* 团务助手 · content script v0.3.4
+/* 团务助手 · content script（两个发布版共用）
  * 名单抓取 / 行勾选 / 重置码记录 / 评议批量设置 / 录入预检。
- * 不代点审批；批量录入在用户启动任务后会自动填写表单并点击提交，操作前请核对数据。
+ * 不代点审批；批量任务需要用户确认后才开始，确认后会自动填写表单并点击提交。
  */
 (() => {
   'use strict';
@@ -33,7 +33,7 @@
     pendingName: '',
     route: '',
     logs: [],
-    settings: { autoClose: true, delay: 400, updateUrl: '' },
+    settings: { autoClose: true, delay: 400 },
     update: null,
   };
 
@@ -697,57 +697,20 @@
     }
   }
 
-  /* ---------------- 更新检查 ---------------- */
-  const VERSION = '0.3.4';
-  // 把这里的 zhtj-helper/zhtj-helper 换成你托管 version.json 的仓库（GitHub 或 Gitee 都行）
-  const UPDATE_REPO = 'Jasper100-dev/Communist-Youth-League-Affairs-Assistant';
-  const UPDATE_SOURCES = [
-    `https://cdn.jsdelivr.net/gh/${UPDATE_REPO}@main/version.json`,
-    `https://gitee.com/${UPDATE_REPO}/raw/main/version.json`,
-    `https://raw.githubusercontent.com/${UPDATE_REPO}/main/version.json`,
-  ];
+  /* ---------------- 版本与更新入口 ---------------- */
+  // 版本以 manifest 为准，避免 content.js 里的版本号与打包版本不一致
+  const VERSION =
+    typeof chrome !== 'undefined' &&
+    chrome.runtime &&
+    typeof chrome.runtime.getManifest === 'function'
+      ? chrome.runtime.getManifest().version
+      : '0.0.0';
 
-  const verNum = (v) => String(v || '').split('.').map((x) => parseInt(x, 10) || 0);
-  function isNewer(a, b) {
-    const A = verNum(a);
-    const B = verNum(b);
-    for (let i = 0; i < 3; i++) {
-      const x = A[i] || 0;
-      const y = B[i] || 0;
-      if (x !== y) return x > y;
-    }
-    return false;
-  }
+  // Edge 商店版由构建脚本改为 false；
+  // 完整版保持 true，由独立脚本负责网络检查，本文件只负责显示。
+  const HAS_UPDATER = true;
 
-  async function checkUpdate(manual) {
-    const urls = [];
-    const saved = String((state.settings && state.settings.updateUrl) || '').trim();
-    if (saved) urls.push(saved);
-    UPDATE_SOURCES.forEach((u) => urls.push(u));
-    if (manual) log('正在检查更新…');
-    for (const u of urls) {
-      try {
-        const r = await fetch(u, { cache: 'no-store', signal: AbortSignal.timeout(6000) });
-        if (!r.ok) continue;
-        const j = await r.json();
-        if (!j || !j.version) continue;
-        if (isNewer(j.version, VERSION)) {
-          state.update = { version: String(j.version), url: String(j.url || ''), notes: String(j.notes || '') };
-          showUpdateBar();
-          log(`发现新版本 v${j.version}${j.notes ? '：' + j.notes : ''}`);
-        } else {
-          state.update = null;
-          showUpdateBar();
-          if (manual) log(`已是最新版本 v${VERSION}`);
-        }
-        return;
-      } catch (e) {
-        /* 换下一个源 */
-      }
-    }
-    if (manual) log('检查更新失败：更新源都访问不到（可检查网络，或在下面填自定义地址）');
-  }
-
+  // 网络检查在独立脚本中；这里只把结果画到面板上。
   function showUpdateBar() {
     if (!shadow) return;
     const elb = shadow.querySelector('[data-upd]');
@@ -758,21 +721,28 @@
     }
     elb.style.display = 'inline-block';
     elb.textContent = `新版 v${state.update.version}`;
-    elb.title = state.update.notes || '点击去下载';
+    elb.title = '点击打开下载页';
   }
 
-  async function autoCheckUpdate() {
-    if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) return;
-    try {
-      const got = await chrome.storage.local.get('zhtjLastUpdateCheck');
-      const last = got && got.zhtjLastUpdateCheck ? got.zhtjLastUpdateCheck.at : 0;
-      if (Date.now() - last < 24 * 3600 * 1000) return;
-      await chrome.storage.local.set({ zhtjLastUpdateCheck: { at: Date.now() } });
-    } catch (e) {
-      return;
-    }
-    checkUpdate(false);
-  }
+  // 供更新脚本回调；Edge 版没有更新脚本，hasUpdater 为 false。
+  window.__CYLAA_HOST__ = {
+    version: VERSION,
+    hasUpdater: HAS_UPDATER,
+    setUpdate(info) {
+      state.update = info || null;
+      showUpdateBar();
+      const pane = shadow && shadow.querySelector('[data-pane="set"]');
+      if (pane && pane.style.display !== 'none') renderSettings();
+    },
+    log,
+  };
+
+  // 更新脚本就绪后，如果设置页正开着，重画一次更新区域
+  window.addEventListener('cylaa:updater-ready', () => {
+    const pane = shadow && shadow.querySelector('[data-pane="set"]');
+    if (pane && pane.style.display !== 'none') renderSettings();
+    showUpdateBar();
+  });
 
   /* ---------------- UI ---------------- */
   let root, shadow, el = {};
@@ -897,7 +867,7 @@
       </style>
       <div class="dock">
         <div class="hd">
-          ${LOGO_URL ? `<img class="lg" src="${LOGO_URL}" alt="团务助手" title="团务助手 · 智慧团建">` : ''}<b>团务助手</b><span class="tag">v0.3.4</span><span class="upd" data-upd style="display:none"></span><span class="sp"></span>
+          ${LOGO_URL ? `<img class="lg" src="${LOGO_URL}" alt="团务助手" title="团务助手 · 智慧团建">` : ''}<b>团务助手</b><span class="tag">v${VERSION}</span>${HAS_UPDATER ? '<span class="upd" data-upd style="display:none"></span>' : ''}<span class="sp"></span>
           <button title="收起">—</button>
         </div>
         <div class="tabs">
@@ -920,10 +890,11 @@
           <button data-act="logclear">清空</button>
         </div>
         <div class="logbox" style="display:none"></div>
-        <div class="foot"><span data-kind>—</span><span>批量任务将自动提交 · 请核对</span></div>
+        <div class="foot"><span data-kind>—</span><span>批量任务需确认后自动提交 · 请核对</span></div>
       </div>
     `;
     root = host;
+    showUpdateBar();
     shadow.querySelectorAll('.tabs div').forEach((d) =>
       d.addEventListener('click', () => activateTab(d.dataset.tab))
     );
@@ -953,10 +924,13 @@
       renderLog();
     });
 
-    shadow.querySelector('[data-upd]').addEventListener('click', () => {
-      if (state.update && state.update.url) window.open(state.update.url, '_blank');
-      else log('还没有配置下载地址（version.json 里的 url 字段）');
-    });
+    const updEl = shadow.querySelector('[data-upd]');
+    if (updEl)
+      updEl.addEventListener('click', () => {
+        const u = window.__CYLAA_UPDATER__;
+        if (u) u.open();
+        else log('更新检查未启用');
+      });
     const dock = shadow.querySelector('.dock');
     const miniBtn = shadow.querySelector('.hd button');
     const setMini = (mini) => {
@@ -1453,7 +1427,8 @@
     if (
       !confirm(
         `即将在网站上为 ${items.length} 人选择等次。\n\n` +
-          `⚠️ 页面上的下拉会被逐个点掉；若系统选中即保存，就无法改回。\n\n确定现在应用？`
+          `⚠️ 页面上的下拉会被逐个点掉；若系统选中即保存，就无法改回。\n\n` +
+          `点击「确定」后，插件会逐人操作并触发保存（等同提交）。请确认清单无误。`
       )
     )
       return;
@@ -1631,7 +1606,7 @@
       <div class="tiny" style="margin-top:8px">
         第 ${view.cur}/${pageInfo().pages} 页 · ${when}<br>
         流程：勾人 → 选等次 → <b>写入选中</b>（只进清单，不碰页面）→ <b>复查并应用</b> → 确认。<br>
-        应用前不会对网站做任何改动；应用后请到页面上点「提交」保存（插件不点）。优秀上限 ${max} 人。
+        应用前不会对网站做任何改动；点「确认应用」后，插件会逐人选择等次（选中即保存，等同提交），请先核对清单。优秀上限 ${max} 人。
       </div>
     `;
     });
@@ -2061,7 +2036,7 @@
     }
     infoState.mode = 'list';
     infoState.inputs.clear();
-    log(`已写入 ${okN} 个字段，失败 ${failN}。请核对后自己点页面上的「提交」保存（插件不点）。`);
+    log(`已写入 ${okN} 个字段，失败 ${failN}。请核对后自己点页面上的「提交」保存（单人写入不提交）。`);
     infoState.fields = scanFormFields();
     renderInfo();
   }
@@ -2136,7 +2111,8 @@
         `将逐个处理 ${target.length} 人：${target.join('、')}${target.length < names.length ? ' 等' : ''}\n\n` +
           `每人会：列表点「编辑」→ 表单点「修改」→ 填 ${fields.length} 个字段 → 点「提交」→ 点「返回」→ 下一个人。\n` +
           `（团干的编辑页是 cadresinfo，会自动适配）\n` +
-          `中途任何一个人失败都会立刻停下。\n\n开始吗？`
+          `中途任何一个人失败都会立刻停下。\n\n` +
+          `点击「确定」后，插件会按上面的步骤逐人自动提交；请确认你已核对名单与内容。\n\n开始吗？`
       )
     )
       return;
@@ -2333,7 +2309,7 @@
       .map((x) => `<div class="rv"><span class="rn">${esc(x.label)}</span><span class="rl">${esc(x.value)}</span></div>`)
       .join('');
     pane.innerHTML = `
-      <div class="warn">只写你填了的这几项，其余字段不会动。写入后请核对，再点页面上的「提交」保存（插件不点提交）。</div>
+      <div class="warn">只写你填了的这几项，其余字段不会动。写入前会弹窗让你确认；写入后请核对，再点页面上的「提交」保存（单人写入不提交）。</div>
       <div class="stat"><span>待改 <i>${items.length}</i> 个字段</span></div>
       <div class="list" style="max-height:320px">${list || '<div class="empty">没有要改的字段</div>'}</div>
       <div class="row" style="margin-top:8px">
@@ -2869,10 +2845,25 @@
     });
   }
 
+  function fillUpdateSlot(pane) {
+    if (!HAS_UPDATER) return;
+    const slot = pane && pane.querySelector('[data-upd-slot]');
+    if (!slot) return;
+    const u = window.__CYLAA_UPDATER__;
+    if (!u) {
+      slot.innerHTML = '<div class="tiny">更新检查组件未加载</div>';
+      return;
+    }
+    slot.innerHTML = u.settingsHtml();
+    const checkBtn = slot.querySelector('[data-act="checkupd"]');
+    if (checkBtn) checkBtn.addEventListener('click', () => u.check(true));
+    const openBtn = slot.querySelector('[data-act="openupd"]');
+    if (openBtn) openBtn.addEventListener('click', () => u.open());
+  }
+
   function renderSettings() {
     const pane = shadow && shadow.querySelector('[data-pane="set"]');
     if (!pane) return;
-    const upd = state.update;
     pane.innerHTML = `
       <label class="sw"><input type="checkbox" data-set="autoClose" ${state.settings.autoClose ? 'checked' : ''}> 记录后自动关闭弹窗</label>
       <label class="sw">操作间隔 <input type="number" data-set="delay" min="200" max="3000" step="100" value="${state.settings.delay}" style="width:70px"> ms</label>
@@ -2880,31 +2871,25 @@
         <button class="b" data-act="logout">清除本地数据</button>
       </div>
       <div style="border-top:1px dashed #eee;margin:10px 0"></div>
-      <div class="tiny">当前版本 v${VERSION}${upd ? ` · <b style="color:#c8161d">发现新版本 v${esc(upd.version)}</b>` : ''}</div>
-      <div class="row">
-        <button class="b" data-act="checkupd">检查更新</button>
-        ${upd && upd.url ? '<button class="b p" data-act="openupd">去下载</button>' : ''}
-      </div>
-      <input class="fi" data-set="updateUrl" value="${esc(state.settings.updateUrl || '')}" placeholder="自定义更新地址（version.json），可留空">
+      ${
+        HAS_UPDATER
+          ? '<div data-upd-slot></div>'
+          : `<div class="tiny">当前版本 v${VERSION}（商店版，更新由 Microsoft Edge 加载项商店完成）</div>`
+      }
       <div class="tiny" style="margin-top:10px">
         本工具只读取当前页面已展示的数据，不上传任何内容。<br>
-        审批、提交、删除等动作仍需你在页面上亲自点击。
+        批量任务需要你在面板中点击确认后才会执行；确认后插件会逐人填写并提交，请先核对名单与内容。<br>
+        审批、删除等动作仍需你在页面上亲自操作。
       </div>
     `;
     pane.querySelectorAll('[data-set]').forEach((inp) =>
       inp.addEventListener('change', () => {
         const k = inp.dataset.set;
-        if (k === 'updateUrl') state.settings[k] = String(inp.value || '').trim();
-        else state.settings[k] = inp.type === 'checkbox' ? inp.checked : Number(inp.value) || 400;
+        state.settings[k] = inp.type === 'checkbox' ? inp.checked : Number(inp.value) || 400;
         chrome.storage.local.set({ zhtjHelperSettings: state.settings });
       })
     );
-    pane.querySelector('[data-act="checkupd"]').addEventListener('click', () => checkUpdate(true));
-    const openUpd = pane.querySelector('[data-act="openupd"]');
-    if (openUpd)
-      openUpd.addEventListener('click', () => {
-        if (state.update && state.update.url) window.open(state.update.url, '_blank');
-      });
+    fillUpdateSlot(pane);
     pane.querySelector('[data-act="logout"]').addEventListener('click', () => {
       state.roster = [];
       state.selected.clear();
@@ -2965,7 +2950,6 @@
     loadInfoTemplate();
     ensureMounted();
     if (restored) log(`已恢复评议数据：${restored} 人（勾选 ${pjState.sel.size} 人）`);
-    autoCheckUpdate();
     setInterval(() => {
       try {
         ensureMounted();

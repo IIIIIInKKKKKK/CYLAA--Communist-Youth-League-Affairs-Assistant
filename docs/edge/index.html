@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>团务助手（Microsoft Edge 商店版）- 隐私政策</title>
+<style>
+  body{max-width:820px;margin:40px auto;padding:0 20px;font:16px/1.75 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:#1f2328;background:#fff}
+  h1{font-size:28px;border-bottom:2px solid #eaeef2;padding-bottom:12px}
+  h2{font-size:20px;margin-top:32px;color:#0969da}
+  table{border-collapse:collapse;width:100%;margin:12px 0}
+  th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:#f6f8fa}
+  code{background:#f6f8fa;padding:2px 5px;border-radius:4px;font-size:14px}
+  .note{background:#fff8c5;border-left:4px solid #d4a72c;padding:12px 16px;margin:16px 0}
+  footer{margin-top:40px;color:#656d76;font-size:14px}
+</style>
+</head>
+<body>
+
+<h1>团务助手（Microsoft Edge 商店版）- 隐私政策</h1>
+<p>生效日期：2026 年 11 月 19 日　|　适用版本：商店版 v1.0.0 及以后</p>
+
+<div class="note">
+本政策只适用于从 Microsoft Edge 加载项商店安装的版本。商店版不包含自动更新检查，也不会向代码托管平台或 CDN 发起任何网络请求。本工具为第三方辅助工具，与智慧团建官方平台不存在授权或隶属关系。
+</div>
+
+<h2>1. 我们收集和处理的数据</h2>
+<p>本扩展仅在智慧团建平台（<code>https://zhtj.youth.cn</code>）页面内运行，处理的数据来自您正在查看的页面、您主动导入的文件，以及您在面板中的操作。具体包括：</p>
+<table>
+  <tr><th>数据类型</th><th>具体字段</th><th>来源</th><th>用途</th></tr>
+  <tr><td>团员基本信息</td><td>姓名、民族、手机号码、团内职务、序号</td><td>平台页面表格</td><td>名单核对、变更比对、CSV 导出</td></tr>
+  <tr><td>密码重置验证码</td><td>姓名、验证码、有效期、记录时间</td><td>平台弹窗文本</td><td>本地记录与 TXT 导出，供您自行核对</td></tr>
+  <tr><td>评议与录入数据</td><td>评议等级、表单字段名称与填写值</td><td>您在面板中的设置</td><td>批量设置与录入辅助</td></tr>
+  <tr><td>导入文件</td><td>CSV / XLSX 文件内容</td><td>您主动选择的文件</td><td>录入前格式预检</td></tr>
+</table>
+<p>本扩展<strong>不读取或保存您的平台账号密码</strong>，也不读取身份证号等未在表中列出的字段。</p>
+
+<h2>2. 数据存储与保留</h2>
+<table>
+  <tr><th>位置</th><th>内容</th><th>保留期限</th></tr>
+  <tr><td>浏览器内存</td><td>当前名单、验证码记录、任务状态</td><td>页面关闭即释放</td></tr>
+  <tr><td><code>chrome.storage.local</code></td><td>名单变更快照（姓名 | 手机号）、上次更新时间、面板设置</td><td>持久保存，直至您在扩展中清除或卸载扩展</td></tr>
+  <tr><td><code>sessionStorage</code></td><td>评议缓存、字段模板、录入任务、系统字典</td><td>浏览器会话结束时清除</td></tr>
+  <tr><td>本地导出文件</td><td>团员名单 CSV、重置码 TXT</td><td>保存在您指定的下载目录，由您自行管理</td></tr>
+</table>
+<p>除上述位置外，本扩展不将团务数据写入其他存储，也不上传至扩展作者或第三方服务器。</p>
+
+<h2>3. 网络通信</h2>
+<ul>
+  <li><strong>仅智慧团建平台（同源请求）：</strong>读取页面表格，以及调用 <code>/v1/center/importenter</code> 获取字典数据（民族、学历、政治面貌等），使用您当前登录会话。</li>
+  <li><strong>没有其他外部请求：</strong>商店版不检查更新、不加载远程脚本、不发送统计或日志，也不访问任何第三方更新源或 CDN。</li>
+  <li>卸载扩展或关闭页面后，扩展不会再发起任何请求。</li>
+</ul>
+
+<h2>4. 敏感信息处理</h2>
+<p>手机号码、姓名及密码重置验证码属于敏感个人信息。本扩展仅在您的设备本地处理这些数据；验证码只用于您主动触发的记录与导出，不发送给任何外部服务。导出文件包含敏感信息，请妥善保管，不要在公共设备或公开渠道传播。使用共享设备后，请及时清理下载目录中的导出文件。</p>
+
+<h2>5. 自动操作说明</h2>
+<p>名单抓取、验证码记录和数据预检由您在面板中主动触发。批量评议与批量录入功能在您启动任务并设置参数后，会先弹出确认窗口；<strong>只有您点击确认后</strong>，工具才会逐人填写表单并点击页面「提交」按钮。评议批量设置中，选择等次后由平台页面即时保存，效果等同提交。请在确认前核对目标人员与数据内容，并确认您对相关数据拥有合法的操作权限。本工具不改变平台的正式审批流程。</p>
+
+<h2>6. 您的权利与控制</h2>
+<ul>
+  <li>可随时停止正在运行的任务，或关闭/卸载本扩展。</li>
+  <li>卸载扩展会一并清除 <code>chrome.storage.local</code> 与 <code>sessionStorage</code> 中的数据。</li>
+  <li>本地导出文件需您自行删除；本扩展无法远程删除您设备上的文件。</li>
+  <li>如发现数据处理与政策不符，请通过下方渠道反馈。</li>
+</ul>
+
+<h2>7. 第三方与责任限制</h2>
+<p>商店版除智慧团建平台外不连接任何第三方服务，也不向开发者服务器传输数据。本工具依赖智慧团建平台页面结构，平台改版可能导致功能异常；涉及重要团务信息的操作，请以官方平台实际结果为准。使用者应遵守个人信息保护相关法律法规、平台使用规则及所在单位的数据管理要求。</p>
+
+<h2>8. 联系方式</h2>
+<p>隐私或数据安全问题，请通过 Microsoft Edge 加载项商店详情页提供的「支持」联系方式反馈。<br>
+请勿在反馈中提交真实团员数据、账号密码或验证码。</p>
+
+<footer>© 2026 团务助手项目 · 本政策可能随版本更新调整，更新后将在同一地址发布。</footer>
+
+</body>
+</html>

@@ -11,6 +11,10 @@ Thumbs.db
 *.bak
 *.log
 
+# Build output
+dist/
+__pycache__/
+
 # Secrets
 .env
 .env.*

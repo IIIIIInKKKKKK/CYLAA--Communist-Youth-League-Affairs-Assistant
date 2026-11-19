@@ -10,7 +10,7 @@
 
 ---
 
-> Microsoft Edge 加载项商店发布名称为 **团务助手 - 团员信息管理**。本工具为第三方辅助工具，与智慧团建官方平台不存在授权或隶属关系。
+> 本项目有两个互相独立的发布通道：GitHub 发布版（当前 v0.3.5，通过 Releases 更新）和 Microsoft Edge 加载项商店版（v1.0.0，通过商店更新，不包含外部更新检查）。商店版发布名为 **团务助手 - 团员信息管理**。本工具为第三方辅助工具，与智慧团建官方平台不存在授权或隶属关系。
 
 ## 项目简介
 
@@ -53,7 +53,7 @@
 - 操作间隔控制。
 - 版本更新检查。
 
-> 批量评议与批量录入功能由使用者在工具面板中主动启动。批量录入任务启动后，工具会自动填写表单字段并点击页面「提交」按钮，操作前请务必核对目标人员与字段内容，并确认对相关数据拥有合法操作权限。
+> 批量评议与批量录入功能由使用者在工具面板中主动启动；启动时会弹出确认窗口，确认后工具才会逐人填写表单并点击页面「提交」按钮。操作前请务必核对目标人员与字段内容，并确认对相关数据拥有合法操作权限。
 
 > 具体功能以实际发布版本为准，部分功能可能受到智慧团建平台页面调整、账号权限及浏览器环境影响。
 
@@ -65,40 +65,29 @@
 | 工具类型 | 浏览器辅助工具 |
 | 适用对象 | 有相应平台操作权限的团务工作人员 |
 | 浏览器 | Edge、Chrome |
-| 当前版本 | v0.3.5 |
+| 当前版本 | GitHub 版 v0.3.5 · 商店版 v1.0.0 |
 
 ## 安装与使用
 
-### 第一步：获取软件
+### 方式一：GitHub 发布版（开发模式本地加载）
 
-**方式一（推荐）：Microsoft Edge 加载项商店**
+1. 在 [Releases](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases) 下载对应版本的源码压缩包。
+2. 解压后，在浏览器扩展管理页打开「开发者模式」，点击「加载解压缩的扩展」，选择解压目录。
+3. **所选文件夹根目录下必须包含 `manifest.json`**，`content.js`、`update.js` 与 `icons/` 目录需与其同级。
+4. 该版本通过 GitHub 的 `version.json` 检查更新，适合能自行管理扩展的用户。
 
-上架后可在 Microsoft Edge 加载项商店搜索「团务助手 - 团员信息管理」安装，后续更新也通过商店获取。当前商店版本审核中，请关注本项目 Releases 页面公告。
+### 方式二：Microsoft Edge 加载项商店（推荐普通用户）
 
-**方式二：开发模式本地加载**
+在 Microsoft Edge 加载项商店搜索「团务助手 - 团员信息管理」安装，后续更新由商店自动完成。商店版不包含外部更新检查，也不会请求 GitHub / Gitee / CDN。
 
-前往本项目 GitHub 仓库 [团务助手](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant)，下载对应版本的源码压缩包。
+商店版与 GitHub 版是两条独立发布线：版本号各自递增，功能可能略有差异，互不影响。首次上架状态以商店页面为准。
 
-### 第二步：安装
-
-从商店安装：在 Edge 加载项商店页面点击「获取」即可。
-
-本地加载：
-
-- 先解压下载的压缩包；
-- 在浏览器扩展管理页打开「开发者模式」，点击「加载解压缩的扩展」，选择解压所得的文件夹；
-- **所选文件夹根目录下必须包含 `manifest.json`**，它是浏览器识别扩展的入口；`content.js` 与 `icons/` 目录需与其同级；
-- 下载文件须来自本项目官方仓库，不要安装来源不明的修改版本。
-
-### 第三步：使用
+### 使用步骤
 
 1. 使用具有相应权限的账号登录智慧团建平台。
 2. 按照工具说明进入对应功能。
-3. 根据实际业务需求选择操作。
-4. 操作前核对相关数据。
-5. 操作完成后检查平台中的实际结果。
-
-具体操作步骤以对应版本的使用说明为准。
+3. 根据实际业务需求选择操作；批量任务启动时先在弹窗中确认。
+4. 操作前核对相关数据，操作完成后检查平台中的实际结果。
 
 ## 使用须知
 
@@ -122,20 +111,20 @@
 
 数据处理方式、网络通信范围、日志保存位置及数据留存期限，以公开的隐私政策为准。
 
-详细内容请参阅 [隐私政策](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/blob/main/PRIVACY.md)（政策源文件见 [PRIVACY.md](PRIVACY.md)）。
+详细内容请参阅 [GitHub 版隐私政策](docs/index.html) 或 [Edge 商店版隐私政策](docs/edge/index.html)。两版网络行为不同：GitHub 版会请求公开的 `version.json`，商店版只与智慧团建平台通信。
 
 ## 版本信息
 
-当前版本：**v0.3.5**
-
-- 通过 Microsoft Edge 加载项商店安装的用户，请直接在商店中获取更新。
+- GitHub 版：**v0.3.5**（本仓库 `main`，通过 Releases 更新）
+- Edge 商店版：**v1.0.0**（独立版本线，通过商店更新）
 - [查看项目仓库](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant)
 - [查看版本发布页面](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases)
 - [查看更新日志](CHANGELOG.md)
 
 ## 问题反馈
 
-如果在使用过程中遇到问题，欢迎通过 GitHub Issues 反馈。
+- GitHub 版：欢迎通过 GitHub Issues 反馈。
+- Edge 商店版：请使用商店详情页提供的支持联系方式；两版反馈渠道相互独立。
 
 提交问题时建议提供：
 
@@ -146,6 +135,20 @@
 - 不包含个人敏感信息的错误截图。
 
 请勿在 Issue 中上传真实团员数据、账号密码、验证码或其他敏感信息。
+
+## 构建与发布
+
+两个发布包由同一份源码生成，构建时强制隔离：
+
+```bash
+python build/build.py --target edge
+python build/build.py --target github
+```
+
+- Edge 包：`dist/CYLAA-edge-<version>.zip`，manifest 在 zip 根目录，权限只有 `storage` + `zhtj`，不含 `update.js` / `version.json`。
+- GitHub 包：`dist/CYLAA-github-<version>.zip`，包含 `update.js`；更新检查走公开 CORS 接口，不额外申请 host 权限。
+- 版本线：`edge/VERSION` 单独维护；GitHub 版沿用 `manifest.json` 的版本。
+- 发布检查清单与商店素材要求见 [edge/README.md](edge/README.md)。
 
 ## 开源许可
 
