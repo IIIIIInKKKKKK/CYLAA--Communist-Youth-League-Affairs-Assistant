@@ -10,7 +10,9 @@
 
 ---
 
-> 本项目有两个互相独立的发布通道：GitHub 发布版（当前 v0.3.6，通过 Releases 更新）和 Microsoft Edge 加载项商店版（v1.0.0，通过商店更新，不包含外部更新检查）。商店版发布名为 **团务助手 - 团员信息管理**。本工具为第三方辅助工具，与智慧团建官方平台不存在授权或隶属关系。
+> 本分支维护 GitHub 发布版，当前版本 **0.3.6**，通过 GitHub Releases 更新。Microsoft Edge 加载项商店版在 [`edge`](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/tree/edge) 分支独立维护，两版互不影响。
+>
+> 本工具为第三方辅助工具，与智慧团建官方平台不存在授权或隶属关系。
 
 ## 项目简介
 
@@ -65,24 +67,16 @@
 | 工具类型 | 浏览器辅助工具 |
 | 适用对象 | 有相应平台操作权限的团务工作人员 |
 | 浏览器 | Edge、Chrome |
-| 当前版本 | GitHub 版 v0.3.6 · 商店版 v1.0.0 |
+| 当前版本 | v0.3.6 |
 
 ## 安装与使用
 
-### 方式一：GitHub 发布版（开发模式本地加载）
-
-1. 在 [Releases](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases) 下载对应版本的发布包（`CYLAA-github-<version>.zip`）。
+1. 在 [Releases](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases) 下载 `CYLAA-github-<version>.zip`。
 2. 解压后，在浏览器扩展管理页打开「开发者模式」，点击「加载解压缩的扩展」，选择解压目录。
-3. **所选文件夹根目录下必须包含 `manifest.json`**，`content.js`、`update.js` 与 `icons/` 目录需与其同级。
-4. 该版本通过 GitHub 的 `version.json` 检查更新，适合能自行管理扩展的用户。
+3. 所选文件夹根目录下必须包含 `manifest.json`，`content.js`、`update.js` 与 `icons/` 目录需与其同级。
+4. 该版本通过 GitHub Pages 上的 `version.json` 检查更新。
 
-### 方式二：Microsoft Edge 加载项商店（推荐普通用户）
-
-在 Microsoft Edge 加载项商店搜索「团务助手 - 团员信息管理」安装，后续更新由商店自动完成。商店版不包含外部更新检查，也不会请求 GitHub / Gitee / CDN。
-
-商店版与 GitHub 版是两条独立发布线：版本号各自递增，功能可能略有差异，互不影响。首次上架状态以商店页面为准。
-
-### 使用步骤
+使用步骤：
 
 1. 使用具有相应权限的账号登录智慧团建平台。
 2. 按照工具说明进入对应功能。
@@ -109,24 +103,18 @@
 - 请妥善保管本地导出文件。
 - 使用共享设备时，及时清理不再需要的敏感资料。
 
-数据处理方式、网络通信范围、日志保存位置及数据留存期限，以公开的隐私政策为准。
-
-详细内容请参阅 [GitHub 版隐私政策](docs/index.html) 或 [Edge 商店版隐私政策](docs/edge/index.html)。两版网络行为不同：GitHub 版会请求公开的 `version.json`，商店版只与智慧团建平台通信。
+详细政策见 [GitHub 版隐私政策](docs/index.html)。GitHub 版会请求公开的 `version.json`；Edge 商店版不包含此检查，其政策单独维护。
 
 ## 版本信息
 
-- GitHub 版：**v0.3.6**（本仓库 `main`，通过 Releases 更新）
-- Edge 商店版：**v1.0.0**（独立版本线，通过商店更新）
-- [查看项目仓库](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant)
+- GitHub 版：**v0.3.6**（本分支，通过 Releases 更新）
+- Edge 商店版：在 `edge` 分支独立维护
 - [查看版本发布页面](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases)
 - [查看更新日志](CHANGELOG.md)
 
 ## 问题反馈
 
-- GitHub 版：欢迎通过 GitHub Issues 反馈。
-- Edge 商店版：请使用商店详情页提供的支持联系方式；两版反馈渠道相互独立。
-
-提交问题时建议提供：
+欢迎通过 GitHub Issues 反馈。提交时建议提供：
 
 - 软件版本。
 - 浏览器名称及版本。
@@ -136,25 +124,15 @@
 
 请勿在 Issue 中上传真实团员数据、账号密码、验证码或其他敏感信息。
 
-## 构建与发布
+## 发布
 
-两个发布包由同一份源码生成，构建时强制隔离：
+推送 `v*` tag 会触发 `.github/workflows/release.yml`，自动打包 `manifest.json`、`content.js`、`update.js`、`icons/` 并创建 GitHub Release。
 
-```bash
-python build/build.py --target edge
-python build/build.py --target github
-```
-
-- Edge 包：`dist/CYLAA-edge-<version>.zip`，manifest 在 zip 根目录，权限只有 `storage` + `zhtj`，不含 `update.js` / `version.json`。
-- GitHub 包：`dist/CYLAA-github-<version>.zip`，包含 `update.js`；更新检查走公开 CORS 接口，不额外申请 host 权限。
-- 版本线：`edge/VERSION` 单独维护；GitHub 版沿用 `manifest.json` 的版本。
-- 发布检查清单与商店素材要求见 [edge/README.md](edge/README.md)。
+参与开发、分支与发布约定见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 ## 开源许可
 
 本项目采用 MIT License 开源协议。
-
-参与开发、分支与发布约定见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 使用、修改及分发本项目时，请遵守许可证中的相关要求。
 

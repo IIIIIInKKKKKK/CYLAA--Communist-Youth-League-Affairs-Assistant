@@ -1,92 +1,59 @@
-
 # 贡献指南
 
 感谢你关注并支持「团务助手 · 智慧团建」。
 
-我们欢迎用户提交问题反馈、改进建议及符合项目方向的贡献。
+## 1. 分支模型
 
-## 1. 反馈问题
+项目按发布通道拆成两个长期分支，文件互不混用：
 
-如果发现软件存在问题，请优先通过 GitHub Issues 提交。
+| 分支 | 内容 | 版本 |
+|---|---|---|
+| `main` | GitHub 发布版：`content.js` + `update.js` + `manifest.json` + `docs/` | 0.3.x |
+| `edge` | Microsoft Edge 商店版：仅 `content.js` + `manifest.json` + `docs/` + 商店素材 | 1.0.x |
 
-提交时建议包含：
+- 功能/修复从目标分支拉 `feat/<主题>` 或 `fix/<主题>`，PR 合回目标分支。
+- 不要直接把 `edge` 合进 `main`，也不要把 `main` 合进 `edge`；两边运行时文件按需分别修改。
+- `main` 的 `docs/edge/` 只作为 Edge 商店隐私政策的公开托管地址，不属于 GitHub 版运行时代码。
 
-- 软件版本。
-- 操作系统。
-- 浏览器名称及版本。
+## 2. 反馈问题
+
+请通过 GitHub Issues 提交，并说明：
+
+- 软件版本、浏览器名称及版本、操作系统。
 - 问题发生的功能模块。
-- 复现问题的具体步骤。
-- 预期结果与实际结果。
-- 必要的错误截图。
+- 复现步骤、预期结果与实际结果。
+- 必要的错误截图（请遮挡真实姓名、手机号、验证码等）。
 
-请确保提交内容不包含真实团员个人信息及其他敏感数据。
-
-## 2. 提出功能建议
-
-提出功能建议时，建议说明：
-
-- 当前遇到的问题。
-- 希望解决的实际需求。
-- 预期实现效果。
-- 对现有使用流程的影响。
+请勿提交真实团员个人信息、账号密码或访问令牌。
 
 ## 3. 提交代码
 
-如果希望参与项目开发，请遵循以下原则：
-
-1. 保持现有项目结构。
-2. 尽量避免无关修改。
-3. 确保提交内容与项目目标一致。
-4. 不提交个人账号密码、访问令牌等敏感信息。
-5. 不提交真实团员数据及业务资料。
-6. 提交前检查文件内容，避免泄露隐私。
+1. 保持目标分支现有文件结构，不把另一版本的运行文件带进来。
+2. 避免无关修改。
+3. 不提交 `dist/`、真实团员数据、账号密码、令牌。
+4. 行为变化同步更新 `CHANGELOG.md`，并保证面板文案、商店/README 描述、隐私页三处一致。
 
 ## 4. Pull Request
 
-提交 Pull Request 时，请说明：
+PR 请说明修改目的、影响范围（GitHub 版 / Edge 版）、验证方式和已知问题。
 
-- 本次修改的目的。
-- 主要修改内容。
-- 修改涉及的功能。
-- 是否经过必要的验证。
-- 是否存在已知问题。
+合并前至少确认：
 
-## 5. 行为规范
+- `main`：`node --check content.js update.js`，`manifest.json` 的 `content_scripts` 包含两个脚本，权限仅 `storage` + `zhtj`。
+- `edge`：`node --check content.js`，`manifest.json` 版本 1.0.0、权限仅 `storage` + `zhtj`、只加载 `content.js`，包内没有外部更新引用。
+- 本地能打出根目录含 `manifest.json` 的 zip。
+
+## 5. 发布
+
+- GitHub 版：在 `main` 推送 `v0.3.x` tag，`.github/workflows/release.yml` 自动打包并创建 Release。
+- Edge 版：在 `edge` 推送 `edge-v1.0.x` tag 作为记录，手动打包并上传 Microsoft Edge 加载项商店。
+
+## 6. 行为规范
 
 参与项目讨论和协作时，请保持友善、尊重和理性。
 
 不允许利用项目实施未经授权的数据访问、隐私泄露或其他违法违规行为。
 
-## 6. 分支与协作流程
-
-- `main`：稳定分支，只接受经过验证的合并；GitHub 发布 tag 从这里打。
-- `dev`：日常集成分支，功能/修复 PR 默认合入这里。
-- `feat/<主题>`、`fix/<主题>`：个人分支，从 `dev` 拉出，完成后向 `dev` 提 PR。
-- 发布时把 `dev` 合并回 `main`，再打 tag：
-  - `v0.3.x`：自动构建 GitHub 包并创建 Release；
-  - `edge-v1.0.x`：手动构建并上传 Microsoft Edge 加载项商店。
-
-建议在仓库设置中保护 `main` 与 `dev`：要求 PR、要求 CI 通过、要求 CODEOWNERS 审核。CI（`.github/workflows/ci.yml`）会在 PR 和 push 时构建并校验两个包，CI 不通过不要合并。
-
-## 7. 双发布线约定
-
-- Edge 版本只改 `edge/VERSION`；GitHub 版本只改 `manifest.json` 的 `version`。
-- 源码里的 `HAS_UPDATER` 保持 `true`；Edge 构建脚本会改成 `false` 并移除 `update.js`。
-- 不要在 `content.js` 里重新写死版本号或更新地址，更新逻辑只放 `update.js`。
-- Edge 隐私页在 `docs/edge/`，GitHub 版在 `docs/`，不要混用。
-- 不要把 Edge 的版本号写进 GitHub 的 `version.json`。
-- 不要提交 `dist/`、真实团员数据、账号密码或访问令牌。
-
-## 8. 本地验证
-
-```bash
-python build/build.py --target all
-```
-
-- 产物：`dist/CYLAA-edge-<version>.zip`、`dist/CYLAA-github-<version>.zip`。
-- 构建脚本会校验 manifest 位置、权限、禁用字样、图标尺寸和 JS 语法。
-- 如果 `node` 不在 PATH，可加 `--node /path/to/node`。
-
-## 9. 许可证
+## 7. 许可证
 
 提交贡献即表示你同意相关贡献按照项目现有开源许可证进行管理。
