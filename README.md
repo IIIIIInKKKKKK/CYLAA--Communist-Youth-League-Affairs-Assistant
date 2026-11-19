@@ -77,7 +77,7 @@
 
 **方式二：开发模式本地加载**
 
-前往本项目 GitHub 仓库 [团务助手](https://github.com/IIIIIInKKKKKK/CYLAA--Communist-Youth-League-Affairs-Assistant)，下载对应版本的源码压缩包。
+前往本项目 GitHub 仓库 [团务助手](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant)，下载对应版本的源码压缩包。
 
 ### 第二步：安装
 
@@ -122,15 +122,15 @@
 
 数据处理方式、网络通信范围、日志保存位置及数据留存期限，以公开的隐私政策为准。
 
-详细内容请参阅 [隐私政策](https://iiiiinnkkkkkk.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/)（政策源文件见 [PRIVACY.md](PRIVACY.md)）。
+详细内容请参阅 [隐私政策](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/blob/main/PRIVACY.md)（政策源文件见 [PRIVACY.md](PRIVACY.md)）。
 
 ## 版本信息
 
 当前版本：**v0.3.4**
 
 - 通过 Microsoft Edge 加载项商店安装的用户，请直接在商店中获取更新。
-- [查看项目仓库](https://github.com/IIIIIInKKKKKK/CYLAA--Communist-Youth-League-Affairs-Assistant)
-- [查看版本发布页面](https://github.com/IIIIIInKKKKKK/CYLAA--Communist-Youth-League-Affairs-Assistant/releases)
+- [查看项目仓库](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant)
+- [查看版本发布页面](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases)
 - [查看更新日志](CHANGELOG.md)
 
 ## 问题反馈
