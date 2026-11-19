@@ -48,6 +48,7 @@ Edge 包只需要以下文件，`manifest.json` 必须在 zip 根目录：
 ```
 manifest.json
 content.js
+_locales/zh_CN/messages.json
 icons/icon16.png
 icons/icon32.png
 icons/icon48.png
