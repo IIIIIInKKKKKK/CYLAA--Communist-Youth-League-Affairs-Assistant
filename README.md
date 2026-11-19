@@ -10,7 +10,7 @@
 
 ---
 
-> 本项目有两个互相独立的发布通道：GitHub 发布版（当前 v0.3.5，通过 Releases 更新）和 Microsoft Edge 加载项商店版（v1.0.0，通过商店更新，不包含外部更新检查）。商店版发布名为 **团务助手 - 团员信息管理**。本工具为第三方辅助工具，与智慧团建官方平台不存在授权或隶属关系。
+> 本项目有两个互相独立的发布通道：GitHub 发布版（当前 v0.3.6，通过 Releases 更新）和 Microsoft Edge 加载项商店版（v1.0.0，通过商店更新，不包含外部更新检查）。商店版发布名为 **团务助手 - 团员信息管理**。本工具为第三方辅助工具，与智慧团建官方平台不存在授权或隶属关系。
 
 ## 项目简介
 
@@ -65,7 +65,7 @@
 | 工具类型 | 浏览器辅助工具 |
 | 适用对象 | 有相应平台操作权限的团务工作人员 |
 | 浏览器 | Edge、Chrome |
-| 当前版本 | GitHub 版 v0.3.5 · 商店版 v1.0.0 |
+| 当前版本 | GitHub 版 v0.3.6 · 商店版 v1.0.0 |
 
 ## 安装与使用
 
@@ -115,7 +115,7 @@
 
 ## 版本信息
 
-- GitHub 版：**v0.3.5**（本仓库 `main`，通过 Releases 更新）
+- GitHub 版：**v0.3.6**（本仓库 `main`，通过 Releases 更新）
 - Edge 商店版：**v1.0.0**（独立版本线，通过商店更新）
 - [查看项目仓库](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant)
 - [查看版本发布页面](https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/releases)

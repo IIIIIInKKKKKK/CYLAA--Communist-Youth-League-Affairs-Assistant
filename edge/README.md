@@ -5,7 +5,7 @@
 ## 版本
 
 - 商店版版本号写在 [`VERSION`](VERSION)，当前为 `1.0.0`。
-- GitHub 版版本号在根目录 `manifest.json`，当前为 `0.3.5`。
+- GitHub 版版本号在根目录 `manifest.json`，当前为 `0.3.6`。
 - 两条线不要求同号；商店版更新时只递增 `VERSION`。
 
 ## 构建
