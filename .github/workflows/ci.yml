@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, dev]
+  push:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Pillow
+        run: python -m pip install --upgrade pillow
+
+      - name: Build and validate both packages
+        run: python build/build.py --target all --node "$(command -v node)"
+
+      - name: Upload Edge package
+        uses: actions/upload-artifact@v4
+        with:
+          name: cylaa-edge
+          path: dist/CYLAA-edge-*.zip
+          if-no-files-found: error
+
+      - name: Upload GitHub package
+        uses: actions/upload-artifact@v4
+        with:
+          name: cylaa-github
+          path: dist/CYLAA-github-*.zip
+          if-no-files-found: error

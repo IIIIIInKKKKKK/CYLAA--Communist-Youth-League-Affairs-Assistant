@@ -57,6 +57,36 @@
 
 不允许利用项目实施未经授权的数据访问、隐私泄露或其他违法违规行为。
 
-## 6. 许可证
+## 6. 分支与协作流程
+
+- `main`：稳定分支，只接受经过验证的合并；GitHub 发布 tag 从这里打。
+- `dev`：日常集成分支，功能/修复 PR 默认合入这里。
+- `feat/<主题>`、`fix/<主题>`：个人分支，从 `dev` 拉出，完成后向 `dev` 提 PR。
+- 发布时把 `dev` 合并回 `main`，再打 tag：
+  - `v0.3.x`：自动构建 GitHub 包并创建 Release；
+  - `edge-v1.0.x`：手动构建并上传 Microsoft Edge 加载项商店。
+
+建议在仓库设置中保护 `main` 与 `dev`：要求 PR、要求 CI 通过、要求 CODEOWNERS 审核。CI（`.github/workflows/ci.yml`）会在 PR 和 push 时构建并校验两个包，CI 不通过不要合并。
+
+## 7. 双发布线约定
+
+- Edge 版本只改 `edge/VERSION`；GitHub 版本只改 `manifest.json` 的 `version`。
+- 源码里的 `HAS_UPDATER` 保持 `true`；Edge 构建脚本会改成 `false` 并移除 `update.js`。
+- 不要在 `content.js` 里重新写死版本号或更新地址，更新逻辑只放 `update.js`。
+- Edge 隐私页在 `docs/edge/`，GitHub 版在 `docs/`，不要混用。
+- 不要把 Edge 的版本号写进 GitHub 的 `version.json`。
+- 不要提交 `dist/`、真实团员数据、账号密码或访问令牌。
+
+## 8. 本地验证
+
+```bash
+python build/build.py --target all
+```
+
+- 产物：`dist/CYLAA-edge-<version>.zip`、`dist/CYLAA-github-<version>.zip`。
+- 构建脚本会校验 manifest 位置、权限、禁用字样、图标尺寸和 JS 语法。
+- 如果 `node` 不在 PATH，可加 `--node /path/to/node`。
+
+## 9. 许可证
 
 提交贡献即表示你同意相关贡献按照项目现有开源许可证进行管理。

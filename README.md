@@ -154,6 +154,8 @@ python build/build.py --target github
 
 本项目采用 MIT License 开源协议。
 
+参与开发、分支与发布约定见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
 使用、修改及分发本项目时，请遵守许可证中的相关要求。
 
 ---

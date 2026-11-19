@@ -1,0 +1,8 @@
+# 发布相关改动需要维护者审核
+/edge/ @Jasper100-dev
+/build/ @Jasper100-dev
+/docs/edge/ @Jasper100-dev
+/.github/workflows/ @Jasper100-dev
+/manifest.json @Jasper100-dev
+/update.js @Jasper100-dev
+/version.json @Jasper100-dev
