@@ -46,12 +46,13 @@ jobs:
 
       - name: Package
         run: |
+          VERSION=$(python -c "import json;print(json.load(open('manifest.json'))['version'])")
           mkdir -p dist
-          zip -r dist/CYLAA-edge-1.0.0.zip manifest.json content.js icons
+          zip -r "dist/CYLAA-edge-${VERSION}.zip" manifest.json content.js icons
 
       - name: Upload package
         uses: actions/upload-artifact@v4
         with:
           name: cylaa-edge
-          path: dist/CYLAA-edge-1.0.0.zip
+          path: dist/CYLAA-edge-*.zip
           if-no-files-found: error
