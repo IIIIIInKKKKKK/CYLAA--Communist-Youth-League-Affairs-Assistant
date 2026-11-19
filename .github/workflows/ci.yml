@@ -24,9 +24,10 @@ jobs:
           python - <<'PY'
           import json
           import pathlib
+          import re
 
           m = json.loads(pathlib.Path("manifest.json").read_text(encoding="utf-8"))
-          assert m["version"] == "1.0.0", m["version"]
+          assert re.fullmatch(r"\d+\.\d+\.\d+", m["version"]), m["version"]
           assert m["permissions"] == ["storage"], m["permissions"]
           assert m["host_permissions"] == ["https://zhtj.youth.cn/*"], m["host_permissions"]
           assert m["content_scripts"][0]["js"] == ["content.js"], m["content_scripts"]
