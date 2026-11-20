@@ -32,11 +32,25 @@
 
 ## Store listing Description（Partner Center 长描述，250–10000 字符）
 
-> 下面这段填在 Partner Center → Store listings → Details for 中文（简体）→ **Description**，不是 manifest 的 `description` 字段。
+> 填在 Partner Center → Store listings → Details for 中文（简体）→ **Description**，不是 manifest 的 `description` 字段。纯文本粘贴，不要带 Markdown 标记。
+>
+> 完整文案以 **`store-assets/store-description.txt`** 为准（1,577 字符，满足 250–10000 要求），可直接全选复制。功能分节、列表与隐私说明均已按商店包的实际行为重写。
+
+修改长描述时只改 `store-assets/store-description.txt`，并同步更新这里的字符数，避免多处文案不一致。
+
+## Search terms（最多 7 个，每词 ≤30 字符）
 
 ```
-团务助手是一款面向共青团基层团务工作人员的第三方辅助工具，用于在智慧团建平台（zhtj.youth.cn）上提升日常团务处理效率。主要功能：团员名单读取与 CSV 导出，便于数据核对与归档；密码重置验证码的本地记录与导出；教育评议等级批量设置辅助；团员信息批量填写辅助与录入前数据预检。所有功能由使用者在工具面板中主动启动，仅处理使用者本人有权访问的团务数据，不改变正式审批流程。批量任务需要使用者确认后才开始，确认后工具会自动填写表单字段并执行提交（批量录入点击页面「提交」按钮，评议选择等次后由页面即时保存），操作前请务必核对目标人员与字段内容。姓名、手机号、验证码等敏感数据仅在本机浏览器内处理和导出，不上传至开发者服务器。本工具与智慧团建官方平台无授权或隶属关系。使用者须遵守平台规范与个人信息保护相关法律法规。
+团务助手
+智慧团建
+团员名单
+名单导出
+教育评议
+团员信息录入
+验证码记录
 ```
+
+> `智慧团建` 只用于描述兼容的平台，不代表官方授权或隶属关系；若审核对商标用语有疑问，优先删掉这一条，其余 6 条保留。
 
 ## Store listing 语言
 
@@ -76,11 +90,38 @@
 
 不勾选位置、财务、健康信息。
 
+> 录入预检会读取导入表格中的身份证号，仅在本机内存中做格式与校验位检查，不写入存储、不上传，导出的问题清单也只有行号、姓名和问题描述。如果审核按“处理”口径追问，可把“个人身份信息”理解为包含姓名与身份证号，并在 Notes 中补充这一句。
+
 ## 隐私政策 URL
 
 ```
 https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/docs/edge/
 ```
+
+> ⚠️ **上架前必须修正隐私页**：已发布的隐私政策（`main` 分支 `docs/edge/index.html`）第 1 节写着“也不读取身份证号等未在表中列出的字段”，但录入预检实际会解析身份证号做校验，描述与隐私页会互相矛盾。
+>
+> 建议把该句改为：“录入预检会在本机内存中读取导入表格里的身份证号，用于格式与校验位检查，不写入存储、不上传。”并在数据表中补一行“导入文件（含身份证号）”。`edge` 分支的 `docs/index.html` 也要同步改。
+>
+> 另：隐私页第 5 节写“验证码记录由您在面板中主动触发”，实际是用户打开密码重置弹窗后自动记录（仍由用户操作触发），建议改为“打开重置弹窗后自动记录”，与商店描述一致。
+>
+> 另：设置里的「清除本地数据」目前只清空面板状态和评议缓存，没有删除 `chrome.storage.local` 中的 `zhtjRosterSnapshot`（姓名 + 手机号快照），与隐私页“可在扩展中清除”不一致。上架前二选一：修 `content.js`，在清除时调用 `chrome.storage.local.remove(['zhtjRosterSnapshot'])` 后重新打包；或把隐私页改为“卸载扩展后清除”。
+
+## URL 核验（2026-11-20）
+
+| 用途 | 值 | 核验结果 |
+|---|---|---|
+| 商店隐私政策（填 Partner Center） | `https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/docs/edge/` | ✅ HTTP 200，可访问 |
+| 隐私政策直链（目录 URL 被拒时改用） | `https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/docs/edge/index.html` | ✅ HTTP 200，明确指向 html 文件 |
+| 隐私政策目录（不带尾斜杠） | `https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/docs/edge` | ✅ HTTP 200，会跳到带斜杠地址 |
+| 项目主页（可作 Website / Support URL） | `https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/` | ✅ HTTP 200，页面内含反馈说明 |
+| GitHub 版隐私页（勿填商店） | `https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/docs/` | ✅ HTTP 200 |
+| 智慧团建平台 | `https://zhtj.youth.cn/` | ⚠️ 未登录请求返回 403（平台要求登录，属正常）；不要填进 URL 字段 |
+| 权限匹配模式 | `https://zhtj.youth.cn/*` | ❌ HTTP 404，不是可访问网址，只是 manifest 匹配串；已从描述和认证备注里删掉 |
+| 可选支持链接 | `https://github.com/Jasper100-dev/CYLAA--Communist-Youth-League-Affairs-Assistant/issues` | ⚠️ 当前网络无法访问 GitHub，未能核验；填之前请在浏览器确认能打开 |
+
+填 URL 时注意：只粘 `https://` 开头的纯地址，不要带 Markdown 的 `[文字](地址)`、中文括号、前后空格或句末标点；Partner Center 会把整段当 URL 校验。GitHub Pages 路径**区分大小写**，`CYLAA--Communist-...` 的双连字符和大小写都要保持原样，改成全小写会 404。
+
+> 如果提交时仍报“输入的 URL() 似乎已损坏或无效”，先看是不是把 Support URL / Website 留空了。这两个字段若要求必填，优先填项目主页（已核验 200），不要填 `zhtj.youth.cn`；GitHub Issues 在部分网络下可能打不开，填前先自测。描述/备注里出现 `https://zhtj.youth.cn/*` 时，商店的 URL 校验可能把它当链接去访问，404 同样会报 URL 无效；新版商店描述已完全不出现网址，只写「智慧团建平台」，认证备注保留不带协议的域名供审核测试。
 
 ## Notes for certification
 
@@ -88,10 +129,10 @@ https://jasper100-dev.github.io/CYLAA--Communist-Youth-League-Affairs-Assistant/
 本扩展依赖智慧团建平台（zhtj.youth.cn）的真实账号与团务数据。涉及团员个人信息，出于个人信息保护要求无法提供公开测试账号与真实测试数据。
 
 商店版（v1.0.0）说明：
-1. 仅申请 storage 与 https://zhtj.youth.cn/*，不包含外部更新检查，不请求任何第三方地址；
-2. 访问 https://zhtj.youth.cn 即可验证扩展加载与面板显示；
+1. 仅申请 storage 与智慧团建平台（zhtj.youth.cn）的主机权限，不包含外部更新检查，不请求任何第三方地址；
+2. 用具有平台权限的账号访问智慧团建平台（zhtj.youth.cn），即可验证扩展加载与面板显示；
 3. 批量录入/评议必须先由使用者在面板中点击确认，确认后才会逐人填写并提交；评议选择等次后由平台即时保存；
-4. 姓名、手机号、验证码仅在本机处理和导出，不发送至开发者或第三方服务器；
+4. 姓名、手机号、验证码及导入表格中的身份证号仅在本机处理和校验，不发送至开发者或第三方服务器；身份证号只在内存中校验，不写入存储、不上传，问题清单也不含身份证号；
 5. 完整功能需由具有平台权限的团务工作人员在真实业务场景中测试。
 
 审核如需进一步说明，请通过商店支持渠道联系。

@@ -59,7 +59,7 @@ icons/icon128.png
 
 ## 商店素材
 
-`store-assets/` 内为 300×300 logo、440×280 小宣传图、1400×560 大宣传图，以及 `screenshots/` 下 6 张 1280×800 商店截图（示例数据已打码）。
+`store-assets/` 内为 300×300 logo、440×280 小宣传图、1400×560 大宣传图、商店长描述文案 `store-description.txt`，以及 `screenshots/` 下 6 张 1280×800 商店截图（示例数据已打码）。
 
 ## 使用须知
 
