@@ -1,0 +1,13 @@
+YES — testing this extension requires an account on the 智慧团建 platform (zhtj.youth.cn), but we cannot provide test credentials or a screen recording. This is an independent third-party tool, not affiliated with the platform.
+
+Reason: accounts are issued through real CYL organizations and bound to real-name identity and real member records. Sharing an account, or recording the live platform, would violate the platform's terms and China's Personal Information Protection Law, and would expose real members' names, phone numbers and password-reset codes. The platform has no sandbox, demo, or read-only test environment.
+
+What can be verified without signing in:
+1. Install the submitted ZIP. The extension requests only the storage permission and the zhtj.youth.cn host permission.
+2. Open https://zhtj.youth.cn. The assistant panel appears on the right side of the page, below the top bar; the six tabs and the collapse/expand control can be checked.
+3. In DevTools > Network, confirm that requests go only to zhtj.youth.cn. There is no remote code, no eval, no third-party endpoint, and no update checker. No data is sent to the developer.
+4. The package contains only manifest.json, content.js, _locales/zh_CN/messages.json and four icons; content.js is unminified and reviewable.
+
+The six store screenshots show each tab with masked sample data. The listing description states exactly what each function does and that batch actions run only after the user confirms.
+
+We understand this limits certification testing. We are willing to provide any additional non-personal technical evidence, such as a code walkthrough or permission and network analysis, that the reviewer needs.

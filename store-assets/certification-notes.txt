@@ -1,0 +1,15 @@
+YES — testing this extension requires an account on the 智慧团建 platform (zhtj.youth.cn), but we cannot provide test credentials. This is an independent third-party tool, not affiliated with the platform.
+
+Reason: accounts are issued through real CYL organizations and bound to real-name identity and real member records. Sharing an account would violate the platform's terms and China's Personal Information Protection Law, and would expose real members' names, phone numbers and password-reset codes. The platform has no sandbox, demo, or read-only test environment.
+
+What can be verified without signing in:
+1. Install the submitted ZIP. The extension requests only the storage permission and the zhtj.youth.cn host permission.
+2. Open https://zhtj.youth.cn. The assistant panel appears on the right side of the page, below the top bar; the six tabs and the collapse/expand control can be checked.
+3. In DevTools > Network, confirm that requests go only to zhtj.youth.cn. There is no remote code, no eval, no third-party endpoint, and no update checker. No data is sent to the developer.
+4. The package contains only manifest.json, content.js, _locales/zh_CN/messages.json and four icons.
+
+Account-gated workflows are shown end-to-end in this unlisted video with masked data:
+<VIDEO_URL>
+It covers roster capture and CSV export, reset-code recording, batch evaluation with confirmation, batch member-info update with confirmation, and import pre-check.
+
+If a specific flow needs to be demonstrated, contact us via the store support channel and we will provide a targeted recording. We cannot create or share a live account without violating platform rules and personal-data law.
